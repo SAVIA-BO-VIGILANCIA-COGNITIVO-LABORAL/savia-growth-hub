@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "SAVIA BO"
+description = "Sitio web público para presentar SAVIA BO a empresas y profesionales de SST/RRHH, explicar su enfoque preventivo de vulnerabilidad cognitivo-laboral y convertir visitas en solicitudes de demostración."
+version = "1.0.0"
+id = "artifacts/savia-bo-site"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24274
+
+[services.development]
+run = "pnpm --filter @workspace/savia-bo-site run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/savia-bo-site", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/savia-bo-site/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24274"
+BASE_PATH = "/"
